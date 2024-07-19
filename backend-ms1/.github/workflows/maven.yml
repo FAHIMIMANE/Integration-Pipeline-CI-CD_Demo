@@ -40,11 +40,5 @@ jobs:
             mvn -f "$pom_file" clean install
           fi
 
-    # Uncomment and adjust other steps as needed after successful build
-    # - name: Run Tests
-    #   run: mvn -f "$pom_file" test
-
-    # - name: Build Docker image
-    #   run: |
-    #     cd $(dirname "$pom_file")
-    #     docker build -t your-image-name:${{ github.sha }} .
+      - name: Docker deploy
+        run: docker compose up -d
