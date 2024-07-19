@@ -1,7 +1,4 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-name: Java CI with Maven
+name: Java CI/CD with Maven
 
 on:
   push:
@@ -11,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -23,23 +19,26 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Change to backend-ms1 directory
+        run: cd backend-ms1
+
       - name: Compile with Maven
-        run: mvn compile
+        run: mvn -f backend-ms1/pom.xml compile
 
       - name: Run Unit Tests with Maven
-        run: mvn test
+        run: mvn -f backend-ms1/pom.xml test
 
       - name: Run Integration Tests with Maven Using Karate
-        run: mvn compile
+        run: mvn -f backend-ms1/pom.xml verify -Dtest=RunKarateTests
 
       - name: Run Integration Quality with Sonar
-        run: mvn compile
-
-      - name: Run SAST with Sonar
-        run: mvn compile
+        run: mvn -f backend-ms1/pom.xml sonar:sonar
+        # Note: You'll need to configure Sonar separately and add necessary secrets
 
       - name: Run Package with Maven
-        run: mvn compile
+        run: mvn -f backend-ms1/pom.xml package -DskipTests
 
-      - name: Run Deploy with Docker
-        run: mvn compile
+      - name: Build Docker image
+        run: docker build -t your-image-name:${{ github.sha }} backend-ms1
+
+    # Add deployment steps here if needed
