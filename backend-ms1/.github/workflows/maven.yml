@@ -1,4 +1,4 @@
-name: Java CI/CD with Maven
+name: Java CI/CD Debugging
 
 on:
   push:
@@ -7,47 +7,43 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  debug:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch all history for all branches and tags
+          fetch-depth: 0
 
-      - name: Debug information
+      - name: Debug Information
         run: |
           echo "Current directory:"
           pwd
-          echo "Directory contents:"
-          ls -R
+          echo "Directory contents (root):"
+          ls -la
+          echo "All files and directories (including hidden):"
+          find . -maxdepth 3 -print
           echo "Git status:"
           git status
           echo "Git branch:"
           git branch -a
+          echo "Searching for pom.xml:"
+          find . -name pom.xml
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
 
-      - name: Find pom.xml
+      - name: Attempt Maven Build
         run: |
-          pom_file=$(find . -name pom.xml)
+          pom_file=$(find . -name pom.xml | head -n 1)
           if [ -z "$pom_file" ]; then
             echo "No pom.xml found"
             exit 1
           else
             echo "Found pom.xml at: $pom_file"
-            echo "POM_FILE=$pom_file" >> $GITHUB_ENV
+            echo "Attempting to build..."
+            mvn -f "$pom_file" clean install
           fi
-
-      - name: Build with Maven
-        if: env.POM_FILE
-        run: |
-          cd $(dirname $POM_FILE)
-          mvn clean install
-
-    # Other steps are commented out for now
