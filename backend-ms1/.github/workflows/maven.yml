@@ -12,6 +12,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Debug information
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Directory contents:"
+          ls -R
+          echo "Git status:"
+          git status
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -19,26 +29,20 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Change to backend-ms1 directory
-        run: cd backend-ms1
+      - name: Build with Maven
+        run: |
+          cd backend-ms1
+          mvn clean install
 
-      - name: Compile with Maven
-        run: mvn -f backend-ms1/pom.xml compile
+    # Comment out other steps for now
+    # - name: Run Unit Tests with Maven
+    #   run: mvn -f backend-ms1/pom.xml test
 
-      - name: Run Unit Tests with Maven
-        run: mvn -f backend-ms1/pom.xml test
+    # - name: Run Integration Tests with Maven Using Karate
+    #   run: mvn -f backend-ms1/pom.xml verify -Dtest=RunKarateTests
 
-      - name: Run Integration Tests with Maven Using Karate
-        run: mvn -f backend-ms1/pom.xml verify -Dtest=RunKarateTests
+    # - name: Run Integration Quality with Sonar
+    #   run: mvn -f backend-ms1/pom.xml sonar:sonar
 
-      - name: Run Integration Quality with Sonar
-        run: mvn -f backend-ms1/pom.xml sonar:sonar
-        # Note: You'll need to configure Sonar separately and add necessary secrets
-
-      - name: Run Package with Maven
-        run: mvn -f backend-ms1/pom.xml package -DskipTests
-
-      - name: Build Docker image
-        run: docker build -t your-image-name:${{ github.sha }} backend-ms1
-
-    # Add deployment steps here if needed
+    # - name: Build Docker image
+    #   run: docker build -t your-image-name:${{ github.sha }} backend-ms1
