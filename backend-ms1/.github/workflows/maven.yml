@@ -41,4 +41,6 @@ jobs:
           fi
 
       - name: Docker deploy
-        run: docker compose up -d
+        run: |
+          cd deploy
+          docker compose up -d
