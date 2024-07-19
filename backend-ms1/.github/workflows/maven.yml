@@ -1,4 +1,4 @@
-name: Java CI/CD Debugging
+name: Java CI/CD with Maven
 
 on:
   push:
@@ -7,27 +7,19 @@ on:
     branches: [ "main" ]
 
 jobs:
-  debug:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Debug Information
+      - name: Debug Repository Structure
         run: |
           echo "Current directory:"
           pwd
-          echo "Directory contents (root):"
-          ls -la
-          echo "All files and directories (including hidden):"
-          find . -maxdepth 3 -print
-          echo "Git status:"
-          git status
-          echo "Git branch:"
-          git branch -a
-          echo "Searching for pom.xml:"
+          echo "Repository structure:"
+          tree -L 3
+          echo "Searching for pom.xml files:"
           find . -name pom.xml
 
       - name: Set up JDK 17
@@ -36,7 +28,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Attempt Maven Build
+      - name: Build with Maven
         run: |
           pom_file=$(find . -name pom.xml | head -n 1)
           if [ -z "$pom_file" ]; then
@@ -44,6 +36,15 @@ jobs:
             exit 1
           else
             echo "Found pom.xml at: $pom_file"
-            echo "Attempting to build..."
+            echo "Building project..."
             mvn -f "$pom_file" clean install
           fi
+
+    # Uncomment and adjust other steps as needed after successful build
+    # - name: Run Tests
+    #   run: mvn -f "$pom_file" test
+
+    # - name: Build Docker image
+    #   run: |
+    #     cd $(dirname "$pom_file")
+    #     docker build -t your-image-name:${{ github.sha }} .
