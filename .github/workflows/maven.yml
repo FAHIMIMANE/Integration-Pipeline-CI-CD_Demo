@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: frontend-dist
-          path: frontend/dist/
+          path: frontend
 
   deploy:
     runs-on: ubuntu-latest
@@ -72,7 +72,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y nginx
           sudo rm -rf /usr/share/nginx/html/*
-          sudo cp -r frontend/dist/* /usr/share/nginx/html/
+          sudo cp -r frontend/* /usr/share/nginx/html/
           sudo cp frontend/default.conf /etc/nginx/conf.d/default.conf
 
       - name: Start Nginx
