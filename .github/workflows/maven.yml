@@ -19,7 +19,12 @@ jobs:
           distribution: 'temurin'
           
       - name: Build with Maven
-        run: mvn clean package -DskipTests
+        run: mvn clean package -DskipTests -Dspring-boot.build-image.skip=true
+        working-directory: backend-ms1
+
+      - name: Build Docker image
+        run: |
+          docker build -t my-app:latest .
         working-directory: backend-ms1
 
   deploy:
