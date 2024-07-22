@@ -9,9 +9,9 @@
         <relativePath/>
     </parent>
     <groupId>ma.zs</groupId>
-    <artifactId>stocky</artifactId>
+    <artifactId>zyn</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>stocky</name>
+    <name>zyn</name>
     <description>Demo project generated</description>
 
     <properties>
@@ -35,10 +35,6 @@
         <jacoco.version>0.8.7</jacoco.version>
 
         <spring-cloud.version>2023.0.0</spring-cloud.version>
-
-        <sonar.token>squ_11fcdb430c8cce9e7668cb9ae0610aa1ec9ea15e</sonar.token>
-
-        <sonar.host.url>http://localhost:9000</sonar.host.url>
     </properties>
 
     <dependencies>
@@ -242,23 +238,14 @@
     </dependencyManagement>
 
 
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>3.1.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build-image</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <mainClass>
-                        ma.zs.stocky.StockyApplication
+                        ma.zs.zyn.ZynApplication
                     </mainClass>
                     <layout>JAR</layout>
                 </configuration>

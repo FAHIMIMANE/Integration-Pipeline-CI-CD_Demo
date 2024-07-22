@@ -65,65 +65,6 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /products:
-    get:
-      summary: List all products
-      operationId: listProducts
-      tags:
-        - products
-      parameters:
-        - name: limit
-          in: query
-          description: How many items to return at one time (max 100)
-          required: false
-          type: integer
-          format: int32
-      responses:
-        "200":
-          description: A paged array of products
-          headers:
-            x-next:
-              type: string
-              description: A link to the next page of responses
-          schema:
-            $ref: '#/definitions/Products'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-    post:
-      summary: Create a product
-      operationId: createProducts
-      tags:
-        - products
-      responses:
-        "201":
-          description: Null response
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /products/{productId}:
-    get:
-      summary: Info for a specific product
-      operationId: showProductById
-      tags:
-        - products
-      parameters:
-        - name: productId
-          in: path
-          required: true
-          description: The id of the product to retrieve
-          type: string
-      responses:
-        "200":
-          description: Expected response to a valid request
-          schema:
-            $ref: '#/definitions/Products'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
   /purchases:
     get:
       summary: List all purchases
@@ -183,6 +124,124 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /products:
+    get:
+      summary: List all products
+      operationId: listProducts
+      tags:
+        - products
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: A paged array of products
+          headers:
+            x-next:
+              type: string
+              description: A link to the next page of responses
+          schema:
+            $ref: '#/definitions/Products'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Create a product
+      operationId: createProducts
+      tags:
+        - products
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /products/{productId}:
+    get:
+      summary: Info for a specific product
+      operationId: showProductById
+      tags:
+        - products
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The id of the product to retrieve
+          type: string
+      responses:
+        "200":
+          description: Expected response to a valid request
+          schema:
+            $ref: '#/definitions/Products'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /clients:
+    get:
+      summary: List all clients
+      operationId: listClients
+      tags:
+        - clients
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: A paged array of clients
+          headers:
+            x-next:
+              type: string
+              description: A link to the next page of responses
+          schema:
+            $ref: '#/definitions/Clients'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Create a client
+      operationId: createClients
+      tags:
+        - clients
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /clients/{clientId}:
+    get:
+      summary: Info for a specific client
+      operationId: showClientById
+      tags:
+        - clients
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          description: The id of the client to retrieve
+          type: string
+      responses:
+        "200":
+          description: Expected response to a valid request
+          schema:
+            $ref: '#/definitions/Clients'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   
 
 
@@ -204,23 +263,6 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/PurchaseItem'
-  Product:
-    type: "object"
-    required:
-      - id
-      - code
-      - reference
-    properties:
-      id:
-        type: int
-      code:
-        type: string
-      reference:
-        type: string
-  Products:
-    type: array
-    items:
-      $ref: '#/definitions/Product'
   Purchase:
     type: "object"
     required:
@@ -247,6 +289,58 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/Purchase'
+  Product:
+    type: "object"
+    required:
+      - id
+      - code
+      - reference
+    properties:
+      id:
+        type: int
+      code:
+        type: string
+      reference:
+        type: string
+  Products:
+    type: array
+    items:
+      $ref: '#/definitions/Product'
+  Client:
+    type: "object"
+    required:
+      - id
+      - fullName
+      - credentialsNonExpired
+      - enabled
+      - accountNonExpired
+      - accountNonLocked
+      - passwordChanged
+      - username
+      - password
+    properties:
+      id:
+        type: int
+      fullName:
+        type: string
+      credentialsNonExpired:
+        type: boolean
+      enabled:
+        type: boolean
+      accountNonExpired:
+        type: boolean
+      accountNonLocked:
+        type: boolean
+      passwordChanged:
+        type: boolean
+      username:
+        type: string
+      password:
+        type: string
+  Clients:
+    type: array
+    items:
+      $ref: '#/definitions/Client'
 
   Error:
     type: "object"

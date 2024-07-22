@@ -74,6 +74,11 @@ import { ChangePasswordAdminComponent } from './change-password-admin/change-pas
                             canActivate: [AuthGuard],
                         },
                         {
+                            path: 'crm',
+                            loadChildren: () => import('./view/crm/crm-admin-routing.module').then(x => x.CrmAdminRoutingModule),
+                            canActivate: [AuthGuard],
+                        },
+                        {
                             path: 'security',
                             loadChildren: () => import('../security/security-routing.module').then(x => x.SecurityRoutingModule),
                             canActivate: [AuthGuard],

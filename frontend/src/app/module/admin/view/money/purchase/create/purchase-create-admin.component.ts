@@ -22,6 +22,8 @@ import {ProductDto} from 'src/app/shared/model/catalog/Product.model';
 import {ProductAdminService} from 'src/app/shared/service/admin/catalog/ProductAdmin.service';
 import {PurchaseItemDto} from 'src/app/shared/model/money/PurchaseItem.model';
 import {PurchaseItemAdminService} from 'src/app/shared/service/admin/money/PurchaseItemAdmin.service';
+import {ClientDto} from 'src/app/shared/model/crm/Client.model';
+import {ClientAdminService} from 'src/app/shared/service/admin/crm/ClientAdmin.service';
 @Component({
   selector: 'app-purchase-create-admin',
   templateUrl: './purchase-create-admin.component.html'
@@ -43,11 +45,12 @@ export class PurchaseCreateAdminComponent  implements OnInit {
 
 
    private _validPurchaseReference = true;
+    private _validClientFullName = true;
     private _validPurchaseItemsProduct = true;
     private _validPurchaseItemsPrice = true;
     private _validPurchaseItemsQuantity = true;
 
-	constructor(private service: PurchaseAdminService , private productService: ProductAdminService, private purchaseItemService: PurchaseItemAdminService, @Inject(PLATFORM_ID) private platformId? ) {
+	constructor(private service: PurchaseAdminService , private productService: ProductAdminService, private purchaseItemService: PurchaseItemAdminService, private clientService: ClientAdminService, @Inject(PLATFORM_ID) private platformId? ) {
         this.datePipe = ServiceLocator.injector.get(DatePipe);
         this.messageService = ServiceLocator.injector.get(MessageService);
         this.confirmationService = ServiceLocator.injector.get(ConfirmationService);
@@ -59,6 +62,7 @@ export class PurchaseCreateAdminComponent  implements OnInit {
     ngOnInit(): void {
         this.purchaseItemsElement.product = new ProductDto();
         this.productService.findAll().subscribe((data) => this.products = data);
+        this.clientService.findAll().subscribe((data) => this.clients = data);
     }
 
 
@@ -195,6 +199,24 @@ export class PurchaseCreateAdminComponent  implements OnInit {
     set createProductDialog(value: boolean) {
         this.productService.createDialog= value;
     }
+    get client(): ClientDto {
+        return this.clientService.item;
+    }
+    set client(value: ClientDto) {
+        this.clientService.item = value;
+    }
+    get clients(): Array<ClientDto> {
+        return this.clientService.items;
+    }
+    set clients(value: Array<ClientDto>) {
+        this.clientService.items = value;
+    }
+    get createClientDialog(): boolean {
+        return this.clientService.createDialog;
+    }
+    set createClientDialog(value: boolean) {
+        this.clientService.createDialog= value;
+    }
 
 
 
@@ -206,6 +228,12 @@ export class PurchaseCreateAdminComponent  implements OnInit {
          this._validPurchaseReference = value;
     }
 
+    get validClientFullName(): boolean {
+        return this._validClientFullName;
+    }
+    set validClientFullName(value: boolean) {
+        this._validClientFullName = value;
+    }
     get validPurchaseItemsProduct(): boolean {
         return this._validPurchaseItemsProduct;
     }

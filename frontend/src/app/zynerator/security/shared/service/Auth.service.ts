@@ -20,6 +20,7 @@ import {ChangePasswordDto} from "../model/ChangePassword.model";
 })
 export class AuthService {
     readonly API = environment.loginUrl;
+    readonly registerUrl = environment.registerUrl;
     public _user = new UserDto();
     private _adminConnected = false;
     private _authenticatedUser = new UserDto();
@@ -39,7 +40,8 @@ export class AuthService {
 
 
     // @ts-ignore
-    public login(username: string, password: string) {
+	public login(username: string, password: string) {
+        console.log(username, password);
         this.http.post<any>(this.API + 'login', {username, password}, {observe: 'response'}).subscribe(
             resp => {
                 console.log(resp);
@@ -49,48 +51,60 @@ export class AuthService {
                 this.loadInfos();
                 if (this._authenticatedUser.roleUsers.length === 1) {
                     const roleAuthority = this._authenticatedUser.roleUsers[0].role.authority;
-
                     if (roleAuthority === 'ROLE_ADMIN') {
                         this.adminConnected = true;
                     }
-
                 }
                 this._authenticatedUser.roleUsers.forEach(item => {
                     const roleAuthority = item.role.authority.replace('ROLE_', '').toLowerCase();
                     this.router.navigate(['/' + environment.rootAppUrl + '/' + roleAuthority]);
-                })
-            }, (error: HttpErrorResponse) => {
-                this.error = error.error.message;
-                if (error.status === 401) {
-                    let errorMessage = '';
-                    if (this.error && error.message) {
-                        errorMessage = error.error.message;
-                    } else {
-                        errorMessage = 'Unauthorized: Invalid credentials';
-                    }
+                });
+            }, (errorException: HttpErrorResponse) => {
+                let errorMessage = '';
+                if (errorException.error && errorException.error.message) {
+                    errorMessage = errorException.error.message;
+                } else {
+                    errorMessage = 'An error occurred';
+                }
+
+                if (errorException.status === 401) {
                     if (errorMessage.toLowerCase().includes('user is disabled')) {
                         this.messageService.add({
                             severity: 'error',
-                            summary: 'Error ' + error.status,
+                            summary: 'Error ' + errorException.status,
                             detail: 'Unauthorized: User is disabled'
                         });
                     } else {
                         this.messageService.add({
                             severity: 'error',
-                            summary: 'Error ' + error.status,
+                            summary: 'Error ' + errorException.status,
                             detail: 'Invalid credentials'
                         });
                     }
-                } else if (error.status === 405) {
+                } else if (errorException.status === 423) {
+                    const match = errorMessage.match(/(\d+) seconds/);
+                    let remainingTime = 'unknown';
+                    if (match) {
+                        const seconds = parseInt(match[1], 10);
+                        const minutes = Math.floor(seconds / 60);
+                        const remainingSeconds = seconds % 60;
+                        remainingTime = `${minutes} minutes and ${remainingSeconds} seconds`;
+                    }
                     this.messageService.add({
                         severity: 'error',
-                        summary: 'Error ' + error.status,
+                        summary: 'Error ' + errorException.status,
+                        detail: `Account is locked. Please try again in ${remainingTime}.`
+                    });
+                } else if (errorException.status === 405) {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error ' + errorException.status,
                         detail: 'Method Not Allowed: Please check your request method'
                     });
                 } else {
                     this.messageService.add({
                         severity: 'error',
-                        summary: 'Error ' + error.status,
+                        summary: 'Error ' + errorException.status,
                         detail: 'An unexpected error occurred'
                     });
                 }
@@ -175,17 +189,30 @@ export class AuthService {
         return index > -1 ? true : false;
     }
 
-    public register() {
-        this.http.post<any>(this.API + 'register', this.user, {observe: 'response'}).subscribe(
+
+    public registerAdmin() {
+        this.register(this.registerUrl + 'admin', 'ROLE_ADMIN', '/admin/activation')
+    }
+
+    public registerClient() {
+        this.register(this.registerUrl + 'client', 'ROLE_CLIENT', '/clientr/activation')
+    }
+
+
+    private register(urlRegister: string, roleName: string, redirectPath: string) {
+        console.log(this.user);
+        this.http.post<any>(urlRegister, this.user, {observe: 'response'}).subscribe(
             resp => {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
                     detail: ' * Check your email to activate your account *'
                 });
-                this.router.navigate(["/collaborator/activation"])
+                if (this.user.roleUsers[0].role.authority === roleName) {
+                    this.router.navigate([redirectPath]);
+                }
             }, (error: HttpErrorResponse) => {
-                console.log(error.error.error);
+                console.log(error);
                 this.error = error.error.error;
                 if (error.status === 401) {
                     let errorMessage = '';
@@ -223,11 +250,20 @@ export class AuthService {
             }
         );
     }
+
     public activateAccount(activationCode: string, username: string): Observable<any> {
         return this.http.post<any>(this.API + 'activateAccount', { activationCode, username }, { observe: 'response' })
             .pipe(
                 map(resp => {
-                    this.router.navigate(['/collaborator/login']);
+                    if (this.user.roleUsers[0].role.authority === 'ADMIN') {
+                        this.router.navigate(['/admin/login']);
+                    }
+                        else if (this.user.roleUsers[0].role.authority === 'ADMIN') {
+                        this.router.navigate(['/admin/login']);
+                        }
+                        else if (this.user.roleUsers[0].role.authority === 'CLIENT') {
+                        this.router.navigate(['/client/login']);
+                        }
                     return resp;
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -283,7 +319,7 @@ export class AuthService {
 
     public forgetPassword(email: string, password: string) {
         return new Promise((resolve, reject) => {
-            this.http.put<any>(`${this.API}api/user/send-forget?email=${email}`, {observe: 'response'}).subscribe(
+         this.http.put<any>(`${this.API}api/user/send-forget?email=${email}`, {observe: 'response'}).subscribe(
                 resp => {
                     resolve(resp.body);
                 },
@@ -297,7 +333,6 @@ export class AuthService {
 
 
 
-    // collaborator change password
     sendForgetPassword(email: string): Observable<any> {
         const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.getToken());
         return this.http.post(`${this.API}api/user/reset-password?username=${email}`, {}, { headers });
@@ -325,7 +360,7 @@ export class AuthService {
 
 
         const headers = new HttpHeaders({
-            'Authorization': `Bearer ${this.jwtToken}`
+                'Authorization': `Bearer ${this.jwtToken}`
         });
 
         return this.http.post(url, formData, { headers })
@@ -333,9 +368,9 @@ export class AuthService {
                 catchError((error: HttpErrorResponse) => {
                     let errorMessage = 'An unknown error occurred';
                     if (error.error instanceof ErrorEvent) {
-                        errorMessage = `Error: ${error.error.message}`;
+                    errorMessage = `Error: ${error.error.message}`;
                     } else {
-                        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+                errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
                     }
                     console.error(errorMessage);
                     return throwError(errorMessage);

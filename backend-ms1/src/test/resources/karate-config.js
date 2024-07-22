@@ -6,7 +6,7 @@ function fn() {
    
     const rootUrlDev = 'http://localhost:8036/';
     const adminCredentialsDev = {"username": "admin","password": "123"};
-    const urlDev = 'jdbc:mysql://localhost:3306/stocky';
+    const urlDev = 'jdbc:mysql://localhost:3306/zyn';
 
     const usernameDev = 'root';
     const passwordDev = '';
@@ -50,8 +50,9 @@ function fn() {
     config.adminUri = config.rootUrl + 'api/admin/';
 
     config.purchaseItemUrl = config.adminUri + 'purchaseItem/';
-    config.productUrl = config.adminUri + 'product/';
     config.purchaseUrl = config.adminUri + 'purchase/';
+    config.productUrl = config.adminUri + 'product/';
+    config.clientUrl = config.adminUri + 'client/';
 
     common = karate.callSingle('classpath:common.feature', config);
     config.uniqueId = common.uniqueId

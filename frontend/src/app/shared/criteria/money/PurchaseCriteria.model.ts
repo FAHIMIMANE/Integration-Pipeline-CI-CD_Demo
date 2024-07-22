@@ -1,4 +1,5 @@
 import {PurchaseItemCriteria} from './PurchaseItemCriteria.model';
+import {ClientCriteria} from '../crm/ClientCriteria.model';
 
 import {BaseCriteria} from 'src/app/zynerator/criteria/BaseCriteria.model';
 

@@ -50,7 +50,7 @@ export class RegisterAdminComponent implements OnInit {
             this.user.email = this.registerDto.email;
             this.user.roleUsers = new Array<RoleUserDto>();
             this.user.roleUsers.push(roleUser);
-            this.authService.register();
+            this.authService.registerAdmin();
             this.authService.sharedUserName = this.registerDto.username;
         } else {
             this.messageService.add({

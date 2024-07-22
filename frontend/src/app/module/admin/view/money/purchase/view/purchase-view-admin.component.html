@@ -24,6 +24,10 @@
                         <label for="5">{{'purchase.description' | translate}}</label>
                         <textarea id="5" pInputTextarea rows="5" cols="30" [disabled]="true" placeholder="{{'purchase.description' | translate}}"  [ngModel]="item.description"></textarea>
                     </div>
+                    <div class="field col-12 md:col-6">
+                        <label for="6">{{'purchase.client' | translate}}</label>
+                        <input class="mb-2 mr-2" type="text" pInputText [disabled]="true" placeholder="{{'purchase.client' | translate}}" autofocus  id="6" [ngModel]="item.client?.fullName">
+                    </div>
                 </div>
             </p-tabPanel>
 

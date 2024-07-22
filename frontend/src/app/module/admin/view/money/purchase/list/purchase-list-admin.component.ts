@@ -27,6 +27,8 @@ import {ProductDto} from 'src/app/shared/model/catalog/Product.model';
 import {ProductAdminService} from 'src/app/shared/service/admin/catalog/ProductAdmin.service';
 import {PurchaseItemDto} from 'src/app/shared/model/money/PurchaseItem.model';
 import {PurchaseItemAdminService} from 'src/app/shared/service/admin/money/PurchaseItemAdmin.service';
+import {ClientDto} from 'src/app/shared/model/crm/Client.model';
+import {ClientAdminService} from 'src/app/shared/service/admin/crm/ClientAdmin.service';
 
 
 @Component({
@@ -58,9 +60,10 @@ export class PurchaseListAdminComponent implements OnInit {
     protected enableSecurity = false;
 
 
+    clients: Array<ClientDto>;
 
 
-    constructor( private service: PurchaseAdminService  , private productService: ProductAdminService, private purchaseItemService: PurchaseItemAdminService, @Inject(PLATFORM_ID) private platformId?) {
+    constructor( private service: PurchaseAdminService  , private productService: ProductAdminService, private purchaseItemService: PurchaseItemAdminService, private clientService: ClientAdminService, @Inject(PLATFORM_ID) private platformId?) {
         this.datePipe = ServiceLocator.injector.get(DatePipe);
         this.messageService = ServiceLocator.injector.get(MessageService);
         this.confirmationService = ServiceLocator.injector.get(ConfirmationService);
@@ -74,6 +77,7 @@ export class PurchaseListAdminComponent implements OnInit {
         this.findPaginatedByCriteria();
         this.initExport();
         this.initCol();
+        this.loadClient();
 
     }
 
@@ -277,10 +281,14 @@ export class PurchaseListAdminComponent implements OnInit {
             {field: 'purchaseDate', header: 'Purchase date'},
             {field: 'image', header: 'Image'},
             {field: 'total', header: 'Total'},
+            {field: 'client?.fullName', header: 'Client'},
         ];
     }
 
 
+    public async loadClient(){
+        this.clientService.findAllOptimized().subscribe(clients => this.clients = clients, error => console.log(error))
+    }
 
 
 	public initDuplicate(res: PurchaseDto) {
@@ -299,6 +307,7 @@ export class PurchaseListAdminComponent implements OnInit {
                  'Image': e.image ,
                  'Total': e.total ,
                  'Description': e.description ,
+                'Client': e.client?.fullName ,
             }
         });
 
@@ -310,6 +319,7 @@ export class PurchaseListAdminComponent implements OnInit {
             'Total Min': this.criteria.totalMin ? this.criteria.totalMin : environment.emptyForExport ,
             'Total Max': this.criteria.totalMax ? this.criteria.totalMax : environment.emptyForExport ,
             'Description': this.criteria.description ? this.criteria.description : environment.emptyForExport ,
+        //'Client': this.criteria.client?.fullName ? this.criteria.client?.fullName : environment.emptyForExport ,
         }];
       }
 

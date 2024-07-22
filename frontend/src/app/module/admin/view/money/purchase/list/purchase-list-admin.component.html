@@ -48,6 +48,12 @@
                             <label  class="font-bold block mb-2" for="4-2">{{'purchase.totalMax' | translate}}</label>
                             <p-inputNumber  mode="decimal" [(ngModel)]="criteria.totalMax" id="4-2"></p-inputNumber>
                        </div>
+                        <div class="lg:col-3 md:col-6 sm:col-12 mb-4">
+                            <label  class="font-bold block mb-2" for="6-2">{{'purchase.client' | translate}}</label>
+                            <p-multiSelect   appendTo="body" [options]="clients" [(ngModel)]="criteria.clients" itemSize="30" [virtualScroll]="true"  class="p-fluid"
+                                                  defaultLabel="{{'purchase.client' | translate}}" id="6" optionLabel="fullName"  display="chip">
+                            </p-multiSelect>
+                        </div>
                     </div>
                     <div [style]="{ marginTop : '1rem', display: 'flex', justifyContent: 'flex-end' }">
                         <button pButton pRipple label="{{'validate' | translate}}" icon="pi pi-sort-amount-down" class="p-button-info mr-2" (click)="findPaginatedByCriteria()"></button>
@@ -59,7 +65,7 @@
 
 
             <p-table #dt [value]="items" [columns]="cols" [rows]="8" [paginator]="false"
-                    [globalFilterFields]="['reference', 'purchaseDate', 'image', 'total']" [(selection)]="selections"
+                    [globalFilterFields]="['reference', 'purchaseDate', 'image', 'total', 'clientfullName']" [(selection)]="selections"
                     [rowHover]="true" dataKey="id" styleClass="p-datatable-customers"
                     currentPageReportTemplate="{{'les éléments de {first} à {last} sur {totalRecords} ' | translate}}"
                     [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" selectionMode="multiple">
@@ -111,6 +117,14 @@
                             </div>
                         </th>
                                 
+                                
+                        <th pSortableColumn="client">
+                            <div class="p-d-flex p-jc-between p-ai-center">
+                                <span>{{'purchase.client' | translate}}</span>
+                                <p-sortIcon field="client"></p-sortIcon>
+                            </div>
+                        </th>
+                                
                         <th>Actions</th>
                     </tr>
                 </ng-template>
@@ -130,6 +144,9 @@
                             
                             
                         <td>{{element.total}}</td>
+                            
+                            
+                        <td>{{element.client?.fullName}}</td>
                             
                         <td>
                             <button pButton pRipple icon="pi pi-pencil"  class="p-button-rounded p-button-info mr-2" (click)="edit(element)"  *ngIf="editActionIsValid"></button>

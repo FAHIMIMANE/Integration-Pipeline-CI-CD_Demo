@@ -1,12 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { SelectItem } from 'primeng/api';
-import { LayoutService } from "./service/app.layout.service";
-import {AppLayoutComponent} from "./app.layout.component";
-import {AppComponent} from "../app.component";
-import {AuthService} from "../zynerator/security/shared/service/Auth.service";
-import {TranslateService} from "@ngx-translate/core";
-import {UserService} from "../zynerator/security/shared/service/User.service";
-import {UserDto} from "../zynerator/security/shared/model/User.model";
+import { LayoutService } from './service/app.layout.service';
+import {AppLayoutComponent} from './app.layout.component';
+import {AppComponent} from 'src/app/app.component';
+import {TranslateService} from '@ngx-translate/core';
+import {UserService} from 'src/app/zynerator/security/shared/service/User.service';
+import {UserDto} from 'src/app/zynerator/security/shared/model/User.model';
+import {AuthService} from 'src/app/zynerator/security/shared/service/Auth.service';
 
 @Component({
     selector: 'app-topbar',

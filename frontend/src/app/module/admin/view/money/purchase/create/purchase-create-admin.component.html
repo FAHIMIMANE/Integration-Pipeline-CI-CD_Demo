@@ -42,6 +42,14 @@
                                                     
                                                 </div>
 
+                                            <div class="field col-11 md:col-6">
+                                                <label for="6">{{'purchase.client' | translate}}</label>
+                                                <p-dropdown  appendTo="body"  [options]="clients" [(ngModel)]="item.client" id="6" [filter]="true" filterMatchMode="contains"
+                                                        [showClear]="true" optionLabel="fullName" placeholder="{{'purchase.client' | translate}}"  >
+                                                </p-dropdown>
+                                                
+                                            </div>
+
                                 </div>
                             </p-tabPanel>
                                     <p-tabPanel header="{{'purchase.purchaseItems' | translate}}">

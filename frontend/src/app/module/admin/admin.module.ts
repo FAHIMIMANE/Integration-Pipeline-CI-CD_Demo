@@ -38,6 +38,8 @@ import { CatalogAdminModule } from './view/catalog/catalog-admin.module';
 import { CatalogAdminRoutingModule } from './view/catalog/catalog-admin-routing.module';
 import { MoneyAdminModule } from './view/money/money-admin.module';
 import { MoneyAdminRoutingModule } from './view/money/money-admin-routing.module';
+import { CrmAdminModule } from './view/crm/crm-admin.module';
+import { CrmAdminRoutingModule } from './view/crm/crm-admin-routing.module';
 
 import {SecurityModule} from 'src/app/module/security/security.module';
 import {SecurityRoutingModule} from 'src/app/module/security/security-routing.module';
@@ -81,6 +83,8 @@ import {SecurityRoutingModule} from 'src/app/module/security/security-routing.mo
   CatalogAdminRoutingModule,
   MoneyAdminModule,
   MoneyAdminRoutingModule,
+  CrmAdminModule,
+  CrmAdminRoutingModule,
    SecurityModule,
    SecurityRoutingModule
   ],
@@ -93,6 +97,7 @@ import {SecurityRoutingModule} from 'src/app/module/security/security-routing.mo
 
     CatalogAdminModule,
     MoneyAdminModule,
+    CrmAdminModule,
     SecurityModule
   ],
 

@@ -116,7 +116,7 @@ export class ProductAdminService {
     }
 
     get API() {
-        return environment.apiUrlStockyservice + 'admin/product/';
+        return environment.apiUrlZynservice + 'admin/product/';
     }
 
     public get items(): Array<ProductDto> {

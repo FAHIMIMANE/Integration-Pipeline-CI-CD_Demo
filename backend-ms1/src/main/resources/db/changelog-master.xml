@@ -4,7 +4,8 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
 
             <include file="classpath:db/migration/changelog/money/PurchaseItem.xml"/>
-        <include file="classpath:db/migration/changelog/catalog/Product.xml"/>
         <include file="classpath:db/migration/changelog/money/Purchase.xml"/>
+        <include file="classpath:db/migration/changelog/catalog/Product.xml"/>
+        <include file="classpath:db/migration/changelog/crm/Client.xml"/>
 
 </databaseChangeLog>

@@ -1,4 +1,5 @@
 import {PurchaseItemDto} from './PurchaseItem.model';
+import {ClientDto} from '../crm/Client.model';
 
 import {BaseDto} from 'src/app/zynerator/dto/BaseDto.model';
 
@@ -15,6 +16,7 @@ export class PurchaseDto extends BaseDto{
 
     public description: string;
 
+    public client: ClientDto ;
      public purchaseItems: Array<PurchaseItemDto>;
 
 

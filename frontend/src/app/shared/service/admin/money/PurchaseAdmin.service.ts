@@ -116,7 +116,7 @@ export class PurchaseAdminService {
     }
 
     get API() {
-        return environment.apiUrlStockyservice + 'admin/purchase/';
+        return environment.apiUrlZynservice + 'admin/purchase/';
     }
 
     public get items(): Array<PurchaseDto> {

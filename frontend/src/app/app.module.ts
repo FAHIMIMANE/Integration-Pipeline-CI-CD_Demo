@@ -51,6 +51,8 @@ import {PublicRoutingModule} from "./public/public-routing.module";
 
 import {AdminModule} from './module/admin/admin.module';
 import {AdminRoutingModule} from './module/admin/admin-routing.module';
+import {ClientModule} from './module/client/client.module';
+import {ClientRoutingModule} from './module/client/client-routing.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -93,6 +95,8 @@ imports: [
 
     AdminModule,
     AdminRoutingModule,
+    ClientModule,
+    ClientRoutingModule,
 
   TranslateModule.forRoot({
   loader: {

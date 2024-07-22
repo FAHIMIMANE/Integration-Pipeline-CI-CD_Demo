@@ -3,26 +3,28 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  dateFormatCreate: 'dd/mm/yy',
-  dateFormatEdit: 'dd/mm/yy',
-  dateFormatView: 'dd/mm/yy',
-  dateFormatList: 'dd/MM/yyyy',
-  trueValue: 'Vrai',
-  falseValue: 'Faux',
-  emptyForExport: '-----',
+    production: false,
+    dateFormatCreate: 'dd/mm/yy',
+    dateFormatEdit: 'dd/mm/yy',
+    dateFormatView: 'dd/mm/yy',
+    dateFormatList: 'dd/MM/yyyy',
+    trueValue: 'Vrai',
+    falseValue: 'Faux',
+    emptyForExport: '-----',
 
-  apiUrlStockyservice: 'http://localhost:8036/api/',
-  loginUrl: 'http://localhost:8036/',
-  apiUrl: 'http://localhost:8036/',
+    apiUrlZynservice: 'http://localhost:8036/api/',
+    loginUrl: 'http://localhost:8036/',
+    registerUrl: 'http://localhost:8038/register/',
 
-  uploadMultipleUrl: 'http://localhost:8036/api/cloud/upload-multiple/bucket/ana',
+    apiUrl: 'http://localhost:8036/',
 
-  stripeUrl: "http://localhost:8036/api/payment/create-payment-intent/",
-  stripePublicKey: "pk_test_51PVbvFRxVNBDrAcwfSz21b6EtPSpl6Fw3gUoKpIGWZN5whhSfS67W4hbtk95OMF1JSpxgYPyp9AmkNOAPLNFR7St00tDXFRjuV",
+    uploadMultipleUrl: 'http://localhost:8036/api/cloud/upload-multiple/bucket/ana',
+
+    stripeUrl: "http://localhost:8036/api/payment/create-payment-intent/",
+    stripePublicKey: "pk_test_51PVbvFRxVNBDrAcwfSz21b6EtPSpl6Fw3gUoKpIGWZN5whhSfS67W4hbtk95OMF1JSpxgYPyp9AmkNOAPLNFR7St00tDXFRjuV",
 
 
-  rootAppUrl:'app',
+    rootAppUrl: 'app',
 
 };
 

@@ -15,6 +15,7 @@ export class AppMenuComponent implements OnInit {
   model: any[];
   modelanonymous: any[];
     modelAdmin: any[];
+  modelClient: any[];
 constructor(public layoutService: LayoutService, public app: AppComponent, public appMain: AppLayoutComponent, private roleService: RoleService, private authService: AuthService, private router: Router) { }
   ngOnInit() {
     this.modelAdmin =
@@ -43,6 +44,60 @@ constructor(public layoutService: LayoutService, public app: AppComponent, publi
 									label: 'Liste purchase',
 									icon: 'pi pi-fw pi-plus-circle',
 									routerLink: ['/app/admin/money/purchase/list']
+								  },
+						]
+					  },
+					  {
+						label: 'Collaborator Management',
+						icon: 'pi pi-wallet',
+						items: [
+								  {
+									label: 'Liste client',
+									icon: 'pi pi-fw pi-plus-circle',
+									routerLink: ['/app/admin/crm/client/list']
+								  },
+						]
+					  },
+
+				   {
+					  label: 'Security Management',
+					  icon: 'pi pi-wallet',
+					  items: [
+						  {
+							  label: 'List User',
+							  icon: 'pi pi-fw pi-plus-circle',
+							  routerLink: ['/app/admin/security/user/list']
+						  },
+						  {
+							  label: 'List Model',
+							  icon: 'pi pi-fw pi-plus-circle',
+							  routerLink: ['/app/admin/security/model-permission/list']
+						  },
+						  {
+							  label: 'List Action Permission',
+							  icon: 'pi pi-fw pi-plus-circle',
+							  routerLink: ['/app/admin/security/action-permission/list']
+						  },
+					  ]
+				  }
+			]
+	    }
+    ];
+    this.modelClient =
+      [
+
+				{
+                    label: 'Pages',
+                    icon: 'pi pi-fw pi-briefcase',
+                    items: [
+					  {
+						label: 'Purchase Management',
+						icon: 'pi pi-wallet',
+						items: [
+								  {
+									label: 'Liste purchase',
+									icon: 'pi pi-fw pi-plus-circle',
+									routerLink: ['/app/client/money/purchase/list']
 								  },
 						]
 					  },

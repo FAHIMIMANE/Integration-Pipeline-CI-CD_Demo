@@ -2,10 +2,10 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import {LayoutService} from 'src/app/layout/service/app.layout.service';
 import {AppComponent} from 'src/app/app.component';
-import {AuthService} from 'src/app/zynerator/security/shared/service/Auth.service';
 import {TranslateService} from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import gsap from 'gsap';
+import {AuthService} from "src/app/zynerator/security/shared/service/Auth.service";
 
 @Component({
   selector: 'app-top',

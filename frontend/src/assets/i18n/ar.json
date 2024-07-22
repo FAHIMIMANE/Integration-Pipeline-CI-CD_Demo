@@ -120,6 +120,28 @@
     },
 
 
+    "purchase":{
+        "reference": "Reference",
+        "purchaseDate": "Purchase date",
+        "purchaseDateMin": "Purchase date Min",
+        "purchaseDateMax": "Purchase date Max",
+        "image": "Image",
+        "total": "Total",
+        "totalMin": "Total Min",
+        "totalMax": "Total Max",
+        "description": "Description",
+        "client": "Client",
+        "clientPlaceHolder": "Select a Client",
+        "clientPlaceHolderFilter": "Search by Client",
+        "purchaseItems": "Purchase items",
+        "purchase": "Purchase",
+        "tabPan": "Purchase",
+        "header": "Liste des purchases",
+        "deletePurchaseConfirmationMessage": "Are you sure you want to delete purchase",
+        "deletePurchasesConfirmationMessage": "Are you sure you want to delete the selected elements"
+    },
+
+
     "product":{
         "code": "Code",
         "reference": "Reference",
@@ -131,22 +153,20 @@
     },
 
 
-    "purchase":{
-        "reference": "Reference",
-        "purchaseDate": "Purchase date",
-        "purchaseDateMin": "Purchase date Min",
-        "purchaseDateMax": "Purchase date Max",
-        "image": "Image",
-        "total": "Total",
-        "totalMin": "Total Min",
-        "totalMax": "Total Max",
-        "description": "Description",
-        "purchaseItems": "Purchase items",
-        "purchase": "Purchase",
-        "tabPan": "Purchase",
-        "header": "Liste des purchases",
-        "deletePurchaseConfirmationMessage": "Are you sure you want to delete purchase",
-        "deletePurchasesConfirmationMessage": "Are you sure you want to delete the selected elements"
+    "client":{
+        "fullName": "Full name",
+        "credentialsNonExpired": "Credentials non expired",
+        "enabled": "Enabled",
+        "accountNonExpired": "Account non expired",
+        "accountNonLocked": "Account non locked",
+        "passwordChanged": "Password changed",
+        "username": "Username",
+        "password": "Password",
+        "client": "Client",
+        "tabPan": "Client",
+        "header": "Liste des clients",
+        "deleteClientConfirmationMessage": "Are you sure you want to delete client",
+        "deleteClientsConfirmationMessage": "Are you sure you want to delete the selected elements"
     },
 
 "appName": "GED"

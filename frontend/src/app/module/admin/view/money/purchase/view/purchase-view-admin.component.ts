@@ -26,6 +26,8 @@ import {ProductDto} from 'src/app/shared/model/catalog/Product.model';
 import {ProductAdminService} from 'src/app/shared/service/admin/catalog/ProductAdmin.service';
 import {PurchaseItemDto} from 'src/app/shared/model/money/PurchaseItem.model';
 import {PurchaseItemAdminService} from 'src/app/shared/service/admin/money/PurchaseItemAdmin.service';
+import {ClientDto} from 'src/app/shared/model/crm/Client.model';
+import {ClientAdminService} from 'src/app/shared/service/admin/crm/ClientAdmin.service';
 @Component({
   selector: 'app-purchase-view-admin',
   templateUrl: './purchase-view-admin.component.html'
@@ -47,7 +49,7 @@ export class PurchaseViewAdminComponent implements OnInit {
     purchaseItems = new PurchaseItemDto();
     purchaseItemss: Array<PurchaseItemDto> = [];
 
-    constructor(private service: PurchaseAdminService, private productService: ProductAdminService, private purchaseItemService: PurchaseItemAdminService){
+    constructor(private service: PurchaseAdminService, private productService: ProductAdminService, private purchaseItemService: PurchaseItemAdminService, private clientService: ClientAdminService){
 		this.datePipe = ServiceLocator.injector.get(DatePipe);
         this.messageService = ServiceLocator.injector.get(MessageService);
         this.confirmationService = ServiceLocator.injector.get(ConfirmationService);
@@ -71,6 +73,18 @@ export class PurchaseViewAdminComponent implements OnInit {
     }
     set products(value: Array<ProductDto>) {
         this.productService.items = value;
+    }
+    get client(): ClientDto {
+        return this.clientService.item;
+    }
+    set client(value: ClientDto) {
+        this.clientService.item = value;
+    }
+    get clients(): Array<ClientDto> {
+        return this.clientService.items;
+    }
+    set clients(value: Array<ClientDto>) {
+        this.clientService.items = value;
     }
 
     public hideViewDialog() {

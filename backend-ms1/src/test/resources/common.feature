@@ -3,7 +3,7 @@ Feature: common routine that does not update reference
 
   Background:
     * def uuid = function() { return '' + java.util.UUID.randomUUID(); }
-    * def DbUtils = Java.type('ma.zs.stocky.util.DbUtils')
+    * def DbUtils = Java.type('ma.zs.zyn.util.DbUtils')
 
   Scenario: Setting Global variables
     * def uniqueId = uuid()
