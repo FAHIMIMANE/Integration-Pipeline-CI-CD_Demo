@@ -57,9 +57,6 @@ jobs:
         echo "Deploying application..."
         cd deploy
         docker compose up -d --build
-      env:
-        DOCKER_HOST: tcp://docker:2375
-        DOCKER_TLS_CERTDIR: ""
       
     - name: Check Docker status
       run: |
