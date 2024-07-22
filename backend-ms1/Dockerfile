@@ -1,11 +1,5 @@
-# Use a lightweight Alpine OpenJDK runtime as a base image
 FROM openjdk:17
-
-# Copy the packaged JAR file from the build stage
+WORKDIR /app
 COPY app.jar app.jar
-
-# Expose the port
 EXPOSE 8036
-
-# Define the command to run the application
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
