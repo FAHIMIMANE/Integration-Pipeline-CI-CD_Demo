@@ -29,23 +29,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Set up Docker-in-Docker
-        uses: docker/setup-buildx-action@v2
-        with:
-          driver-opts: image=docker:dind
-          
-      - name: Wait for Docker to stabilize
-        run: |
-          timeout=60
-          until docker info >/dev/null 2>&1 || [ $timeout -eq 0 ]; do
-            sleep 1
-            ((timeout--))
-          done
-          if [ $timeout -eq 0 ]; then
-            echo "Docker failed to start within the allocated time."
-            exit 1
-          fi
-          
       - name: Debug Docker
         run: |
           docker version
@@ -54,16 +37,17 @@ jobs:
           
       - name: Run Deploy with Docker
         run: |
-          docker context create dind
-          docker context use dind
           docker compose version
           docker compose config
           docker compose up -d
         working-directory: deploy
 
       - name: Check container status
-        if: failure()
+        if: always()
         run: |
           docker ps -a
-          docker logs $(docker ps -aq)
+          for container in $(docker ps -aq); do
+            echo "Logs for container $container:"
+            docker logs $container
+          done
         working-directory: deploy
