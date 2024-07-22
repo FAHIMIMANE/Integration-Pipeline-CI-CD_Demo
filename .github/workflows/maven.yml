@@ -81,21 +81,8 @@ jobs:
         sudo cp -r frontend/* /usr/share/nginx/html/
         sudo cp frontend/default.conf /etc/nginx/conf.d/default.conf
 
-    - name: Start Nginx
-      run: sudo systemctl start nginx
-      
-    - name: Prepare for Docker build
-      run: |
-        ls -la deploy
-        mv deploy/*.jar deploy/app.jar
-
     - name: Deploy application
       run: |
         echo "Deploying application..."
         cd deploy
         docker compose up -d --build
-      
-    - name: Check Docker status
-      run: |
-        docker ps -a
-        docker images
