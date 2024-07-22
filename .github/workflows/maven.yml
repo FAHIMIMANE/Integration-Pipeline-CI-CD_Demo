@@ -1,4 +1,4 @@
-name: Docker Deployment
+name: Java CI with Maven and Angular
 
 on:
   push:
@@ -19,16 +19,42 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        
+    - name: Compile with Maven
+      run: mvn compile
+      working-directory: backend-ms1
 
-    - name: Build with Maven
+    - name: Run Unit Tests with Maven
+      run: mvn test
+      working-directory: backend-ms1
+      
+    - name: Run Package with Maven
       run: mvn clean package -DskipTests
       working-directory: backend-ms1
 
-    - name: Upload artifact
+   
+   # Frontend Steps
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+          node-version: '16'
+
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install
+
+    - name: Build frontend
+      run: |
+        cd frontend
+        npm run build
+
+    - name: Upload frontend build artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: app
-        path: backend-ms1/target/*.jar
+          name: frontend-dist
+          path: frontend
+     
 
   deploy:
     needs: build
@@ -38,15 +64,26 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Download artifact
+    - name: Download frontend build artifacts
       uses: actions/download-artifact@v3
       with:
-        name: app
+        name: frontend-dist
         path: deploy
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    - name: Setup Nginx
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y nginx
+        sudo rm -rf /usr/share/nginx/html/*
+        sudo cp -r frontend/* /usr/share/nginx/html/
+        sudo cp frontend/default.conf /etc/nginx/conf.d/default.conf
+
+    - name: Start Nginx
+      run: sudo systemctl start nginx
+      
     - name: Prepare for Docker build
       run: |
         ls -la deploy
