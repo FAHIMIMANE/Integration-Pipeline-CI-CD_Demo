@@ -2,7 +2,7 @@
 FROM openjdk:17
 
 # Copy the packaged JAR file from the build stage
-COPY target/*.jar app.jar
+COPY --from=build /workspace/target/*.jar app.jar
 
 # Expose the port
 EXPOSE 8036
