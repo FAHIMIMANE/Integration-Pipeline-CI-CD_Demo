@@ -1,0 +1,45 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Compile with Maven
+        run: mvn compile
+
+      - name: Run Unit Tests with Maven
+        run: mvn test
+
+      - name: Run Integration Tests with Maven Using Karate
+        run: mvn compile
+
+      - name: Run Integration Quality with Sonar
+        run: mvn compile
+
+      - name: Run SAST with Sonar
+        run: mvn compile
+
+      - name: Run Package with Maven
+        run: mvn compile
+
+      - name: Run Deploy with Docker
+        run: mvn compile
