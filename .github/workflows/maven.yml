@@ -47,8 +47,18 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    - name: Prepare for Docker build
+      run: |
+        ls -la deploy
+        mv deploy/*.jar deploy/app.jar
+
     - name: Deploy application
       run: |
         echo "Deploying application..."
         cd deploy
         docker compose up -d --build
+      
+    - name: Check Docker status
+      run: |
+        docker ps -a
+        docker images
