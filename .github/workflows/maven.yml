@@ -20,7 +20,7 @@ jobs:
           
       - name: Build with Maven
         run: mvn clean package -DskipTests
-
+        working-directory: backend-ms1
   deploy:
     runs-on: ubuntu-latest
     needs: build
