@@ -9,80 +9,80 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Compile with Maven
+      run: mvn compile
+      working-directory: backend-ms1
 
-      - name: Compile with Maven
-        run: mvn compile
-        working-directory: backend-ms1
+    - name: Run Unit Tests with Maven
+      run: mvn test
+      working-directory: backend-ms1
+      
+    - name: Run Package with Maven
+      run: mvn clean package -DskipTests
+      working-directory: backend-ms1
 
-      - name: Run Unit Tests with Maven
-        run: mvn test
-        working-directory: backend-ms1
-
-      - name: Run Package with Maven
-        run: mvn clean package -DskipTests
-        working-directory: backend-ms1
-
-
-      # Frontend Steps
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
+   
+   # Frontend Steps
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
           node-version: '16'
 
-      - name: Install frontend dependencies
-        run: |
-          cd frontend
-          npm install
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install
 
-      - name: Build frontend
-        run: |
-          cd frontend
-          npm run build
+    - name: Build frontend
+      run: |
+        cd frontend
+        npm run build
 
-      - name: Upload frontend build artifacts
-        uses: actions/upload-artifact@v3
-        with:
+    - name: Upload frontend build artifacts
+      uses: actions/upload-artifact@v3
+      with:
           name: frontend-dist
           path: frontend
-
+     
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Download frontend build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: frontend-dist
-          path: deploy
+    - name: Download frontend build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: frontend-dist
+        path: deploy
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
-      - name: Setup Nginx
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y nginx
-          sudo rm -rf /usr/share/nginx/html/*
-          sudo cp -r frontend/* /usr/share/nginx/html/
-          sudo cp frontend/default.conf /etc/nginx/conf.d/default.conf
+    - name: Setup Nginx
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y nginx
+        sudo rm -rf /usr/share/nginx/html/*
+        sudo cp -r frontend/* /usr/share/nginx/html/
+        sudo cp frontend/default.conf /etc/nginx/conf.d/default.conf
 
-      - name: Deploy application
-        run: |
-          echo "Deploying application..."
-          cd deploy
-          docker compose up -d --build
+    - name: Deploy application
+      run: |
+        echo "Deploying application..."
+        cd deploy
+        docker compose up -d --build
