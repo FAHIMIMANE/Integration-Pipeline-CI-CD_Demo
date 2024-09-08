@@ -49,13 +49,15 @@ jobs:
         cd frontend
         npm run build
 
-    - name: Upload frontend build artifacts
-      uses: actions/upload-artifact@v3
+    - name: Cache Node.js modules
+      uses: actions/cache@v3
       with:
-        name: frontend-dist
-        path: frontend
-        retention-days: 7
-     
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+  
+  
 
   deploy:
     needs: build
