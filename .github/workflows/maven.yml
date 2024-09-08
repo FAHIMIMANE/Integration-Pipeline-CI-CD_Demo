@@ -52,8 +52,9 @@ jobs:
     - name: Upload frontend build artifacts
       uses: actions/upload-artifact@v3
       with:
-          name: frontend-dist
-          path: frontend
+        name: frontend-dist
+        path: frontend
+        retention-days: 7
      
 
   deploy:
