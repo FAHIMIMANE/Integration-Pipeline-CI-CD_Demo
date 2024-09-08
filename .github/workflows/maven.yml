@@ -71,7 +71,9 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: frontend-dist
-        path: deploy
+        path: frontend-build
+
+
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -81,8 +83,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y nginx
         sudo rm -rf /usr/share/nginx/html/*
-        sudo cp -r frontend/* /usr/share/nginx/html/
-        sudo cp frontend/default.conf /etc/nginx/conf.d/default.conf
+        sudo cp -r frontend-build/* /usr/share/nginx/html/
+        sudo cp frontend-build/default.conf /etc/nginx/conf.d/default.conf
+    
 
     - name: Deploy application
       run: |
