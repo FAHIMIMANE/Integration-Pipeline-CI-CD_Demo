@@ -74,11 +74,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download frontend build artifacts
-        uses: actions/download-artifact@v3
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v3
         with:
           name: frontend-dist
-          path: frontend-build # This should match the path you're saving the artifact to in the 'upload-artifact' step
+          path: frontend/dist
+          retention-days: 1 # This should match the path you're saving the artifact to in the 'upload-artifact' step
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
