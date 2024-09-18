@@ -1,3 +1,4 @@
+
 name: Java CI with Maven and Angular
 
 on:
@@ -49,12 +50,7 @@ jobs:
           cd frontend
           npm run build
 
-      - name: Upload frontend build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: frontend-dist
-          path: frontend/dist  # More specific path
-          retention-days: 1    # Short retention time to avoid hitting quota
+      
 
 
   deploy:
