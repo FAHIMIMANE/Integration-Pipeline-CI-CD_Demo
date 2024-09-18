@@ -112,3 +112,19 @@ jobs:
             sudo cp frontend/default.conf /etc/nginx/conf.d/default.conf
       
 
+  deploy:
+    needs: setup-Nginx, build-backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Deploy application
+        run: |
+          echo "Deploying application..."
+          cd deploy
+          docker compose up -d --build
