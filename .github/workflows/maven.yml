@@ -1,4 +1,4 @@
-name: Java CI with Maven and Angular
+name: pipeline CI/CD
 
 on:
   push:
@@ -113,7 +113,7 @@ jobs:
       
 
   deploy:
-    needs: setup-Nginx, build-backend
+    needs: [setup-Nginx, build-backend]  # Corrected to use an array format
     runs-on: ubuntu-latest
 
     steps:
